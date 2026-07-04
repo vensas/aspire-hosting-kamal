@@ -70,6 +70,12 @@ without any Aspire tooling.
 
 ## Notes and limitations
 
+- **Your app must answer the proxy health check.** kamal-proxy only routes traffic after a
+  200 response from `/up` (Kamal's default) or whatever you set via
+  `config.Proxy.Healthcheck = new() { Path = "/health" }`. Note that Aspire ServiceDefaults
+  maps `/health` only in the Development environment — expose one explicitly for production,
+  e.g. `builder.Services.AddHealthChecks();` + `app.MapHealthChecks("/health");`. Also avoid
+  `UseHttpsRedirection()` for the probe path: the proxy probes over plain http.
 - Requires Aspire 13.4+ (builds on the experimental pipeline APIs, `ASPIREPIPELINES00x`).
 - Kamal deploys one app per config file; accessories live in the primary app's config.
   Cross-service references assume all containers share the `kamal` docker network, i.e. a

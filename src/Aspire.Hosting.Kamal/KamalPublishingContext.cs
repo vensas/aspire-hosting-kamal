@@ -451,6 +451,9 @@ internal sealed class KamalPublishingContext(
 
             ## Notes
 
+            - kamal-proxy only routes traffic once the app answers 200 on the health check path
+              (`/up` unless a `proxy.healthcheck.path` is set in the config). Make sure the app
+              serves that endpoint in production.
             - TLS terminates at kamal-proxy (Let's Encrypt); containers talk plain http on the `kamal` docker network.
             - Cross-service references resolve to container DNS names (`<service>-web`, `<service>-<accessory>`); all services must share a host (or a docker network spanning hosts) for that to work.
             - `aspire deploy` runs these `kamal deploy` commands for you when the Kamal CLI is installed.

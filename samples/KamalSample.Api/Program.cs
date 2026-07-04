@@ -1,12 +1,14 @@
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+builder.Services.AddHealthChecks();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// No UseHttpsRedirection: TLS terminates at kamal-proxy, the container only speaks http.
+// A redirect would also break the proxy's health check probe.
 
-app.UseHttpsRedirection();
+// kamal-proxy only routes traffic once this returns 200 (path configured in deploy.yml).
+app.MapHealthChecks("/health");
 
 var summaries = new[]
 {
@@ -26,7 +28,7 @@ app.MapGet("/weatherforecast", () =>
     return forecast;
 });
 
-app.Run();
+await app.RunAsync();
 
 record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
 {
