@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <IsPackable>true</IsPackable>
+    <Version>0.1.0</Version>
+    <PackageTags>aspire hosting kamal kamal-deploy deployment</PackageTags>
+    <Description>Kamal (kamal-deploy.org) publishing for Aspire. AddKamalEnvironment() makes 'aspire publish' emit Kamal-ready artifacts: config/deploy.yml, .kamal/secrets and Dockerfiles.</Description>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <!-- Aspire pipeline/compute APIs are experimental; this package knowingly builds on them. -->
+    <NoWarn>$(NoWarn);ASPIREPIPELINES001;ASPIREPIPELINES002;ASPIREPIPELINES003;ASPIREPIPELINES004;ASPIRECOMPUTE002;CS1591</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Aspire.Hosting" Version="13.4.6" />
+    <PackageReference Include="YamlDotNet" Version="18.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="Aspire.Hosting.Kamal.Tests" />
+  </ItemGroup>
+
+</Project>

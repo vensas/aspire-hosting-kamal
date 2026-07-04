@@ -1,0 +1,6 @@
+@KamalSample.Api_HostAddress = http://localhost:5139
+
+GET {{KamalSample.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
