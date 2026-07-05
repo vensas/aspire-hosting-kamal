@@ -64,14 +64,16 @@ internal static partial class DotnetDockerfileGenerator
 
         for (var current = directory; current is not null; current = current.Parent)
         {
-            if (Directory.Exists(Path.Combine(current.FullName, ".git")) ||
-                current.EnumerateFiles("*.sln").Any() ||
-                current.EnumerateFiles("*.slnx").Any())
-            {
+            if (HasGitDirectory(current) || HasSolutionFile(current))
                 return current.FullName;
-            }
         }
 
         return fallback;
     }
+    
+    private static bool HasGitDirectory(DirectoryInfo directory) 
+        => Directory.Exists(Path.Combine(directory.FullName, ".git"));
+    
+    private static bool HasSolutionFile(DirectoryInfo directory)
+        => directory.EnumerateFiles("*.sln").Any() || directory.EnumerateFiles("*.slnx").Any();
 }

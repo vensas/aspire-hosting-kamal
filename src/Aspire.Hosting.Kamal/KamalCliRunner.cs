@@ -27,13 +27,12 @@ internal static class KamalCliRunner
             .ToList();
 
         if (configFiles.Count == 0)
-        {
             throw new InvalidOperationException($"No deploy*.yml files found in {configDirectory}.");
-        }
 
-        foreach (var configFile in configFiles)
+        var relativeConfigFiles =
+            configFiles.Select(configFile => Path.GetRelativePath(outputPath, configFile).Replace('\\', '/'));
+        foreach (var relativeConfig in relativeConfigFiles)
         {
-            var relativeConfig = Path.GetRelativePath(outputPath, configFile).Replace('\\', '/');
             var deployTask = await context.ReportingStep.CreateTaskAsync(
                 new MarkdownString($"Running **kamal deploy** for `{relativeConfig}`"),
                 context.CancellationToken).ConfigureAwait(false);
@@ -87,10 +86,20 @@ internal static class KamalCliRunner
             startInfo.ArgumentList.Add(argument);
         }
 
-        using var process = new Process { StartInfo = startInfo };
+        using var process = new Process();
+        process.StartInfo = startInfo;
+        
         var output = new StringBuilder();
-        process.OutputDataReceived += (_, e) => { if (e.Data is not null) { lock (output) { output.AppendLine(e.Data); } } };
-        process.ErrorDataReceived += (_, e) => { if (e.Data is not null) { lock (output) { output.AppendLine(e.Data); } } };
+        process.OutputDataReceived += (_, e) =>
+        {
+            if (e.Data is null) return;
+            lock (output) { output.AppendLine(e.Data); }
+        };
+        process.ErrorDataReceived += (_, e) =>
+        {
+            if (e.Data is null) return;
+            lock (output) { output.AppendLine(e.Data); }
+        };
 
         try
         {

@@ -68,6 +68,29 @@ without any Aspire tooling.
 - `resource.PublishAsKamalAccessory((service, accessory) => ...)` — same for accessories
   (publish a port, pin a host, extra volumes, ...).
 
+## Testing the generated output
+
+Kamal has no `--dry-run` flag, but you can validate everything short of a real deploy:
+
+```sh
+aspire publish -o ./out && cd out
+
+# 1. Schema/parse check: Kamal loads deploy.yml, resolves image, roles, accessories.
+kamal config -c config/deploy.yml
+
+# 2. Secrets check: resolves .kamal/secrets with dotenv interpolation (uses your env vars).
+export KAMAL_REGISTRY_PASSWORD=x POSTGRES_PASSWORD=x ...
+kamal secrets print -c config/deploy.yml
+
+# 3. Image build check (needs Docker, no server): builds the generated Dockerfile.
+docker build -f Dockerfile.<app> <context-from-deploy.yml>
+```
+
+For a full end-to-end rehearsal without a cloud server, point `WithServers(...)` at a local
+Linux VM that runs Docker and accepts your SSH key (e.g. OrbStack: `orb create ubuntu kamal-test`,
+Multipass, or Lima), use a throwaway registry like `localhost:5000` or a free GHCR repo, then
+run `kamal setup` from the publish output. Kamal treats the VM exactly like a production host.
+
 ## Notes and limitations
 
 - **Your app must answer the proxy health check.** kamal-proxy only routes traffic after a
