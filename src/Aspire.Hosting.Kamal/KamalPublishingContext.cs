@@ -113,7 +113,10 @@ internal sealed class KamalPublishingContext(
                 ["web"] = new()
                 {
                     Hosts = [.. hosts],
-                    Proxy = externalEndpoint is null ? false : null
+                    Proxy = externalEndpoint is null ? false : null,
+                    // Stable DNS name on the kamal docker network; kamal's own container
+                    // names carry the deploy version and cannot be used for discovery.
+                    Options = new() { ["network-alias"] = app.InternalHostName }
                 }
             },
             Registry = BuildRegistry(environment),

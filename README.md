@@ -53,6 +53,30 @@ For project resources a multi-stage `Dockerfile.<name>` is generated (TFM auto-d
 with `builder.context` pointing at your repository root, so `kamal deploy` builds the image
 without any Aspire tooling.
 
+## Multiple projects
+
+Kamal deploys one app per config file, so each Aspire project gets its own:
+
+```
+config/deploy.yml          # first project ("primary") — also owns all accessories
+config/deploy.orders.yml   # every further project
+config/deploy.web.yml
+```
+
+- Deploy them with `kamal deploy`, then `kamal deploy -c config/deploy.<name>.yml` per app
+  (or let `aspire deploy` run all of them). They share the hosts, kamal-proxy, and the
+  `kamal` docker network; container/image names are namespaced per service, so nothing collides.
+- Apps with `WithExternalHttpEndpoints()` each get their own proxy host
+  (`api.example.com`, `www.example.com`, ...) on the shared kamal-proxy.
+- Projects without an external endpoint become internal-only apps (`proxy: false`):
+  reachable by the other apps but not from the internet.
+- Cross-project `WithReference(...)` env vars resolve to stable DNS aliases on the `kamal`
+  network — every app role is generated with `options: { network-alias: <service>-web }`
+  because Kamal's own container names carry the deploy version and can't be used for
+  discovery. So `web` sees `services__api__http__0: http://api-web:8080`.
+- Accessories land in the primary app's config only; all apps reference them by the
+  primary-scoped container name (e.g. `api-postgres`).
+
 ## API
 
 - `AddKamalEnvironment(name)` — adds the environment (publish/deploy mode only).

@@ -1,0 +1,6 @@
+@KamalSample.Orders_HostAddress = http://localhost:5015
+
+GET {{KamalSample.Orders_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

@@ -16,6 +16,8 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\Aspire.Hosting.Kamal\Aspire.Hosting.Kamal.csproj" IsAspireProjectResource="false" />
     <ProjectReference Include="..\KamalSample.Api\KamalSample.Api.csproj" />
+    <ProjectReference Include="..\KamalSample.Orders\KamalSample.Orders.csproj" />
+    <ProjectReference Include="..\KamalSample.Web\KamalSample.Web.csproj" />
   </ItemGroup>
 
 </Project>
