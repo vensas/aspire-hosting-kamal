@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Dependabot now monitors NuGet packages and GitHub Actions weekly.
+
 ## 0.1.0 – 2026-07-05
 
 Initial release.
