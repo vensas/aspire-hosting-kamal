@@ -4,4 +4,5 @@ obj/
 .vs/
 .idea/
 kamal-out/
+out/
 .DS_Store
