@@ -6,6 +6,10 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <UserSecretsId>46b20ca0-9185-48f5-9500-e92b1b917661</UserSecretsId>
+    <!-- Aspire.AppHost.Sdk injects host-RID-specific packages (e.g. Aspire.Dashboard.Sdk.linux-x64),
+         so a lock file generated on one OS fails locked-mode restore on another. -->
+    <RestorePackagesWithLockFile>false</RestorePackagesWithLockFile>
+    <RestoreLockedMode>false</RestoreLockedMode>
   </PropertyGroup>
 
   <ItemGroup>
