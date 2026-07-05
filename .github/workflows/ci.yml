@@ -53,7 +53,9 @@ jobs:
         id: nuget-login
         uses: NuGet/login@v1
         with:
-          user: vensas
+          # Must be the username of the account that CREATED the trust policy
+          # on nuget.org (a person), not the organization that owns the package.
+          user: esskar
 
       - name: Push to NuGet
         run: >
