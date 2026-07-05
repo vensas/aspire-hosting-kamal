@@ -9,10 +9,18 @@
     <PackageTags>aspire hosting kamal kamal-deploy deployment</PackageTags>
     <Description>Kamal (kamal-deploy.org) publishing for Aspire. AddKamalEnvironment() makes 'aspire publish' emit Kamal-ready artifacts: config/deploy.yml, .kamal/secrets and Dockerfiles.</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageProjectUrl>https://github.com/vensas/aspire-hosting-kamal</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/vensas/aspire-hosting-kamal</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <!-- Aspire pipeline/compute APIs are experimental; this package knowingly builds on them. -->
     <NoWarn>$(NoWarn);ASPIREPIPELINES001;ASPIREPIPELINES002;ASPIREPIPELINES003;ASPIREPIPELINES004;ASPIRECOMPUTE002;CS1591</NoWarn>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="../../README.md" Pack="true" PackagePath="/" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Aspire.Hosting" Version="13.4.6" />

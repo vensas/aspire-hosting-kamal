@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- CI pipeline: PRs and pushes to `main` are built and tested; merges to `main`
+  publish the package to NuGet.org (duplicate versions are skipped, so bumping
+  `<Version>` in the csproj triggers a release).
+- NuGet package metadata: README, project/repository URL.
 - Dependabot now monitors NuGet packages and GitHub Actions weekly.
 
 ## 0.1.0 – 2026-07-05

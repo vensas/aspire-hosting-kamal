@@ -1,0 +1,54 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Restore
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build --configuration Release --no-restore
+
+      - name: Test
+        run: dotnet test --configuration Release --no-build --verbosity normal
+
+  publish:
+    needs: build
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Pack
+        run: dotnet pack src/Aspire.Hosting.Kamal/Aspire.Hosting.Kamal.csproj --configuration Release --output ./artifacts
+
+      - name: Push to NuGet
+        run: >
+          dotnet nuget push ./artifacts/*.nupkg
+          --api-key ${{ secrets.NUGET_API_KEY }}
+          --source https://api.nuget.org/v3/index.json
+          --skip-duplicate
