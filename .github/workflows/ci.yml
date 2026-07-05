@@ -36,6 +36,9 @@ jobs:
     needs: build
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write # required for NuGet Trusted Publishing (OIDC)
     steps:
       - uses: actions/checkout@v5
 
@@ -46,9 +49,15 @@ jobs:
       - name: Pack
         run: dotnet pack src/Aspire.Hosting.Kamal/Aspire.Hosting.Kamal.csproj --configuration Release --output ./artifacts
 
+      - name: NuGet login (Trusted Publishing)
+        id: nuget-login
+        uses: NuGet/login@v1
+        with:
+          user: vensas
+
       - name: Push to NuGet
         run: >
           dotnet nuget push ./artifacts/*.nupkg
-          --api-key ${{ secrets.NUGET_API_KEY }}
+          --api-key ${{ steps.nuget-login.outputs.NUGET_API_KEY }}
           --source https://api.nuget.org/v3/index.json
           --skip-duplicate
