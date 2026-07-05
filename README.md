@@ -1,4 +1,4 @@
-# Aspire.Hosting.Kamal
+# Vensas.Aspire.Hosting.Kamal
 
 A [Kamal](https://kamal-deploy.org) deployment target for [.NET Aspire](https://aspire.dev).
 
@@ -145,7 +145,7 @@ run `kamal setup` from the publish output. Kamal treats the VM exactly like a pr
 
 ## Repository layout
 
-- `src/Aspire.Hosting.Kamal` — the package.
+- `src/Vensas.Aspire.Hosting.Kamal` — the package.
 - `samples/KamalSample.AppHost` — sample AppHost (api + postgres + redis); try
   `aspire publish -o ./kamal-out` inside it.
-- `tests/Aspire.Hosting.Kamal.Tests` — unit tests.
+- `tests/Vensas.Aspire.Hosting.Kamal.Tests` — unit tests.

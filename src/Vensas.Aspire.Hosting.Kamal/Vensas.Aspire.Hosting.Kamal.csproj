@@ -28,7 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <InternalsVisibleTo Include="Aspire.Hosting.Kamal.Tests" />
+    <InternalsVisibleTo Include="Vensas.Aspire.Hosting.Kamal.Tests" />
   </ItemGroup>
 
 </Project>

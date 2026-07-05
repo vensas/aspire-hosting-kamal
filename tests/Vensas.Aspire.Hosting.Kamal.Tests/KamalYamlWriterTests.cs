@@ -1,6 +1,6 @@
-using Aspire.Hosting.Kamal.Model;
+using Vensas.Aspire.Hosting.Kamal.Model;
 
-namespace Aspire.Hosting.Kamal.Tests;
+namespace Vensas.Aspire.Hosting.Kamal.Tests;
 
 public class KamalYamlWriterTests
 {

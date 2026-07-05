@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Aspire.Hosting.Kamal\Aspire.Hosting.Kamal.csproj" />
+    <ProjectReference Include="..\..\src\Vensas.Aspire.Hosting.Kamal\Vensas.Aspire.Hosting.Kamal.csproj" />
   </ItemGroup>
 
 </Project>

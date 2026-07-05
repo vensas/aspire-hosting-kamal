@@ -3,12 +3,12 @@
 
 using System.Diagnostics.CodeAnalysis;
 using Aspire.Hosting.ApplicationModel;
-using Aspire.Hosting.Kamal.Model;
+using Vensas.Aspire.Hosting.Kamal.Model;
 using Aspire.Hosting.Pipelines;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-namespace Aspire.Hosting.Kamal;
+namespace Vensas.Aspire.Hosting.Kamal;
 
 /// <summary>
 /// Represents a Kamal (https://kamal-deploy.org) deployment environment.

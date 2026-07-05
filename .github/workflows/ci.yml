@@ -47,7 +47,7 @@ jobs:
           dotnet-version: 10.0.x
 
       - name: Pack
-        run: dotnet pack src/Aspire.Hosting.Kamal/Aspire.Hosting.Kamal.csproj --configuration Release --output ./artifacts
+        run: dotnet pack src/Vensas.Aspire.Hosting.Kamal/Vensas.Aspire.Hosting.Kamal.csproj --configuration Release --output ./artifacts
 
       - name: NuGet login (Trusted Publishing)
         id: nuget-login

@@ -1,6 +1,6 @@
 using YamlDotNet.Serialization;
 
-namespace Aspire.Hosting.Kamal.Model;
+namespace Vensas.Aspire.Hosting.Kamal.Model;
 
 /// <summary>
 /// Typed representation of a Kamal <c>config/deploy.yml</c> file.

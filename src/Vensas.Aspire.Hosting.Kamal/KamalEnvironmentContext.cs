@@ -1,7 +1,8 @@
+using Aspire.Hosting;
 using Aspire.Hosting.ApplicationModel;
 using Microsoft.Extensions.Logging;
 
-namespace Aspire.Hosting.Kamal;
+namespace Vensas.Aspire.Hosting.Kamal;
 
 internal sealed class KamalEnvironmentContext(KamalEnvironmentResource environment, ILogger logger)
 {

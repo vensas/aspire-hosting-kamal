@@ -1,7 +1,7 @@
 using System.Globalization;
 using Aspire.Hosting.ApplicationModel;
 
-namespace Aspire.Hosting.Kamal;
+namespace Vensas.Aspire.Hosting.Kamal;
 
 /// <summary>
 /// The result of resolving an Aspire value expression for Kamal:

@@ -1,7 +1,7 @@
 using Aspire.Hosting.ApplicationModel;
-using Aspire.Hosting.Kamal.Model;
+using Vensas.Aspire.Hosting.Kamal.Model;
 
-namespace Aspire.Hosting.Kamal;
+namespace Vensas.Aspire.Hosting.Kamal;
 
 /// <summary>
 /// Customizes the generated <see cref="KamalDeployConfig"/> for a resource published as a Kamal app.

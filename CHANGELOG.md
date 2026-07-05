@@ -2,7 +2,8 @@
 
 ## 0.1.0 – 2026-07-05
 
-Initial release.
+Initial release, published as `Vensas.Aspire.Hosting.Kamal` (the `Aspire.` package
+ID prefix is reserved by Microsoft on NuGet.org).
 
 - `AddKamalEnvironment(...)`: Kamal compute environment for Aspire 13.4+ built on the
   pipeline API (`aspire publish` / `aspire deploy`).

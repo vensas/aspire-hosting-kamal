@@ -1,6 +1,6 @@
 using Aspire.Hosting.ApplicationModel;
-using Aspire.Hosting.Kamal;
-using Aspire.Hosting.Kamal.Model;
+using Vensas.Aspire.Hosting.Kamal;
+using Vensas.Aspire.Hosting.Kamal.Model;
 
 namespace Aspire.Hosting;
 

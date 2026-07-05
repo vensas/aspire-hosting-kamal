@@ -1,4 +1,4 @@
-namespace Aspire.Hosting.Kamal.Tests;
+namespace Vensas.Aspire.Hosting.Kamal.Tests;
 
 public class NamingTests
 {

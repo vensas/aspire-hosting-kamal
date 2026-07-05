@@ -1,6 +1,6 @@
 using Aspire.Hosting.ApplicationModel;
 
-namespace Aspire.Hosting.Kamal;
+namespace Vensas.Aspire.Hosting.Kamal;
 
 /// <summary>
 /// The deployment target created for each compute resource assigned to a

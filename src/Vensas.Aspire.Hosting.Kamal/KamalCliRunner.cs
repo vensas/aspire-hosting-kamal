@@ -5,7 +5,7 @@ using System.Diagnostics;
 using System.Text;
 using Aspire.Hosting.Pipelines;
 
-namespace Aspire.Hosting.Kamal;
+namespace Vensas.Aspire.Hosting.Kamal;
 
 internal static class KamalCliRunner
 {
