@@ -29,19 +29,29 @@ internal static class KamalCliRunner
         if (configFiles.Count == 0)
             throw new InvalidOperationException($"No deploy*.yml files found in {configDirectory}.");
 
+        // Without any app the config only carries accessories (stub service/image);
+        // 'kamal deploy' would try to build the stub, so boot the accessories instead.
+        var accessoriesOnly = environment.ResourceMapping.Count > 0 &&
+                              !environment.ResourceMapping.Values.Any(s => s.IsApp);
+
         var relativeConfigFiles =
             configFiles.Select(configFile => Path.GetRelativePath(outputPath, configFile).Replace('\\', '/'));
         foreach (var relativeConfig in relativeConfigFiles)
         {
+            string[] arguments = accessoriesOnly
+                ? ["accessory", "boot", "all", "-c", relativeConfig]
+                : ["deploy", "-c", relativeConfig];
+            var commandDisplay = $"kamal {arguments[0]}" + (accessoriesOnly ? " boot all" : "");
+
             var deployTask = await context.ReportingStep.CreateTaskAsync(
-                new MarkdownString($"Running **kamal deploy** for `{relativeConfig}`"),
+                new MarkdownString($"Running **{commandDisplay}** for `{relativeConfig}`"),
                 context.CancellationToken).ConfigureAwait(false);
 
             await using (deployTask.ConfigureAwait(false))
             {
                 var (exitCode, output) = await RunAsync(
                     "kamal",
-                    ["deploy", "-c", relativeConfig],
+                    arguments,
                     outputPath,
                     context.CancellationToken).ConfigureAwait(false);
 
@@ -49,11 +59,11 @@ internal static class KamalCliRunner
                 {
                     var tail = string.Join('\n', output.Split('\n').TakeLast(20));
                     await deployTask.CompleteAsync(
-                        $"kamal deploy failed for {relativeConfig} (exit code {exitCode}).",
+                        $"{commandDisplay} failed for {relativeConfig} (exit code {exitCode}).",
                         CompletionState.CompletedWithError,
                         context.CancellationToken).ConfigureAwait(false);
                     throw new InvalidOperationException(
-                        $"'kamal deploy -c {relativeConfig}' failed with exit code {exitCode}. Last output:\n{tail}");
+                        $"'kamal {string.Join(' ', arguments)}' failed with exit code {exitCode}. Last output:\n{tail}");
                 }
 
                 await deployTask.CompleteAsync(

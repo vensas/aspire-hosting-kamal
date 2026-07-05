@@ -35,12 +35,10 @@ internal sealed class KamalPublishingContext(
         var apps = services.Where(s => s.IsApp).ToList();
         var accessories = services.Where(s => !s.IsApp).ToList();
 
-        if (apps.Count == 0)
+        if (apps.Count == 0 && accessories.Count == 0)
         {
             throw new InvalidOperationException(
-                $"The Kamal environment '{environment.Name}' has no deployable app. " +
-                "Kamal requires at least one project resource (or a container built from a Dockerfile). " +
-                "Containers with prebuilt images are published as Kamal accessories and cannot be deployed on their own.");
+                $"The Kamal environment '{environment.Name}' has no compute resources to publish.");
         }
 
         var writeTask = await reportingStep.CreateTaskAsync(
@@ -60,6 +58,28 @@ internal sealed class KamalPublishingContext(
             }
 
             var configFiles = new List<string>();
+
+            if (apps.Count == 0)
+            {
+                // Kamal's schema requires service+image even when only accessories are
+                // managed; the stub image is never built or pulled by accessory commands.
+                var stub = new KamalDeployConfig
+                {
+                    Service = KamalServiceResource.SanitizeName(environment.Name),
+                    Image = "unused/accessories-only",
+                    Servers = new() { ["web"] = new() { Hosts = [.. GetDefaultHosts(environment)], Proxy = false } },
+                    Registry = BuildRegistry(environment),
+                    Builder = new() { Arch = environment.BuilderArch },
+                    Accessories = accessoryModels
+                };
+
+                environment.ConfigureDeployConfig?.Invoke(stub);
+
+                var stubPath = Path.Combine(OutputPath, "config", "deploy.yml");
+                await File.WriteAllTextAsync(stubPath, KamalYamlWriter.Serialize(stub), cancellationToken).ConfigureAwait(false);
+                configFiles.Add("config/deploy.yml");
+            }
+
             for (var i = 0; i < apps.Count; i++)
             {
                 var app = apps[i];
@@ -403,21 +423,28 @@ internal sealed class KamalPublishingContext(
             .OrderBy(k => k, StringComparer.Ordinal)
             .ToList();
 
-        var deployCommands = configFiles
-            .Select(f => f == "config/deploy.yml" ? "kamal deploy" : $"kamal deploy -c {f}");
+        var accessoriesOnly = apps.Count == 0;
+        var primaryServiceName = accessoriesOnly
+            ? KamalServiceResource.SanitizeName(environment.Name)
+            : apps[0].ServiceName;
+
+        var deployCommands = accessoriesOnly
+            ? ["kamal accessory boot all   # re-runs: kamal accessory reboot all"]
+            : configFiles.Select(f => f == "config/deploy.yml" ? "kamal deploy" : $"kamal deploy -c {f}").ToArray();
 
         var accessoryLines = accessories.Count > 0
             ? $"""
 
               ## Accessories
 
-              {string.Join("\n", accessories.Select(a => $"- `{a.ServiceName}` → container `{apps[0].ServiceName}-{a.ServiceName}` on the kamal docker network"))}
+              {string.Join("\n", accessories.Select(a => $"- `{a.ServiceName}` → container `{primaryServiceName}-{a.ServiceName}` on the kamal docker network"))}
 
               Accessories are defined in `config/deploy.yml` and are booted with:
 
               ```sh
               kamal accessory boot all
               ```
+              {(accessoriesOnly ? "\nThis environment contains no deployable app — `service:`/`image:` in `config/deploy.yml` are\nrequired stubs for Kamal's schema and are never built. Use only `kamal accessory`/`kamal server` commands." : "")}
               """
             : "";
 
@@ -442,7 +469,7 @@ internal sealed class KamalPublishingContext(
             {string.Join("\n", secretVars.Select(v => $"export {v}=..."))}
             ```
 
-            4. First-time server setup: `kamal setup` (per config file).
+            4. First-time server setup: {(accessoriesOnly ? "`kamal server bootstrap` (installs Docker on the hosts)." : "`kamal setup` (per config file).")}
 
             ## Deploy
 

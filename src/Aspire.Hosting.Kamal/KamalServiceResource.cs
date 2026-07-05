@@ -56,7 +56,7 @@ public class KamalServiceResource : Resource, IResourceWithParent<KamalEnvironme
     /// </summary>
     internal string InternalHostName => IsApp
         ? $"{ServiceName}-web"
-        : $"{Parent.PrimaryAppServiceName ?? "app"}-{ServiceName}";
+        : $"{Parent.PrimaryAppServiceName ?? SanitizeName(Parent.Name)}-{ServiceName}";
 
     /// <summary>The container port other services should use to reach this workload.</summary>
     internal int InternalPort =>

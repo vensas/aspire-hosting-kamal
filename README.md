@@ -77,6 +77,15 @@ config/deploy.web.yml
 - Accessories land in the primary app's config only; all apps reference them by the
   primary-scoped container name (e.g. `api-postgres`).
 
+### Accessories-only environments
+
+Kamal's schema requires `service:` and `image:` in every config, so a truly app-free
+`deploy.yml` is not possible. If the Aspire model contains only containers (e.g. an
+infra-only stack with postgres + redis), the publisher emits a stub
+(`service: <environment-name>`, `image: unused/accessories-only`) that is never built or
+pulled — manage the stack with `kamal accessory boot|reboot all` (which `aspire deploy`
+runs automatically in this mode) instead of `kamal deploy`.
+
 ## API
 
 - `AddKamalEnvironment(name)` — adds the environment (publish/deploy mode only).
@@ -100,6 +109,8 @@ Kamal has no `--dry-run` flag, but you can validate everything short of a real d
 aspire publish -o ./out && cd out
 
 # 1. Schema/parse check: Kamal loads deploy.yml, resolves image, roles, accessories.
+#    Note: kamal derives the image tag from git, so run this inside a git repository
+#    (your app repo, or 'git init' the output directory).
 kamal config -c config/deploy.yml
 
 # 2. Secrets check: resolves .kamal/secrets with dotenv interpolation (uses your env vars).

@@ -5,6 +5,8 @@ servers:
   web:
     hosts:
       - 203.0.113.10
+    options:
+      network-alias: api-web
 proxy:
   ssl: true
   host: api.kamalsample.ext
