@@ -3,10 +3,13 @@
 ## Unreleased
 
 - CI pipeline: PRs and pushes to `main` are built and tested; merges to `main`
-  publish the package to NuGet.org (duplicate versions are skipped, so bumping
-  `<Version>` in the csproj triggers a release).
+  publish the package to NuGet.org via Trusted Publishing (OIDC, no stored API
+  key). Duplicate versions are skipped, so bumping `<Version>` in the csproj
+  triggers a release.
 - NuGet package metadata: README, project/repository URL.
 - Dependabot now monitors NuGet packages and GitHub Actions weekly.
+- NuGet lock files (`packages.lock.json`) for all projects; CI restores in
+  locked mode so builds fail if the dependency graph drifts from the lock files.
 
 ## 0.1.0 – 2026-07-05
 
