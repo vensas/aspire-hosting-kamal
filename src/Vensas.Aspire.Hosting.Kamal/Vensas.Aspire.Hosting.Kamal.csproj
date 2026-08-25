@@ -5,7 +5,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <IsPackable>true</IsPackable>
-    <Version>0.1.0</Version>
+    <Version>0.1.1</Version>
     <PackageTags>aspire hosting kamal kamal-deploy deployment</PackageTags>
     <Description>Kamal (kamal-deploy.org) publishing for Aspire. AddKamalEnvironment() makes 'aspire publish' emit Kamal-ready artifacts: config/deploy.yml, .kamal/secrets and Dockerfiles.</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Aspire.Hosting" Version="13.4.6" />
+    <PackageReference Include="Aspire.Hosting" Version="13.5.2" />
     <PackageReference Include="YamlDotNet" Version="18.1.0" />
   </ItemGroup>
 

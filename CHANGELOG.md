@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.1 – 2026-08-25
+
+- Bump `Aspire.Hosting` dependency to 13.5.2 (from 13.4.6).
+- Sample AppHost now references `Aspire.Hosting.AppHost` 13.5.2 alongside the
+  PostgreSQL/Redis integrations, matching the updated Aspire SDK.
+
 ## 0.1.0 – 2026-07-05
 
 Initial release, published as `Vensas.Aspire.Hosting.Kamal` (the `Aspire.` package
