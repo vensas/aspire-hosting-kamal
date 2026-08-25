@@ -1,10 +1,16 @@
 # Vensas.Aspire.Hosting.Kamal
 
+[![NuGet](https://img.shields.io/nuget/v/Vensas.Aspire.Hosting.Kamal.svg)](https://www.nuget.org/packages/Vensas.Aspire.Hosting.Kamal)
+
 A [Kamal](https://kamal-deploy.org) deployment target for [.NET Aspire](https://aspire.dev).
 
 Add one line to your AppHost and `aspire publish -o ./out` emits Kamal-ready artifacts:
 `config/deploy.yml`, `.kamal/secrets`, and generated Dockerfiles. `aspire deploy` can then
 run `kamal deploy` for you.
+
+```sh
+dotnet add package Vensas.Aspire.Hosting.Kamal
+```
 
 ```csharp
 var builder = DistributedApplication.CreateBuilder(args);
