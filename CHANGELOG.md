@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.2 – 2026-11-07
+
+- Bump `Aspire.Hosting` dependency to 13.6.4 (from 13.5.2). This also lifts the
+  transitive `MessagePack` dependency to 2.5.307, resolving advisory
+  GHSA-qhrr-8q5h-9q3h.
+- Sample AppHost now references `Aspire.Hosting.AppHost`, `Aspire.Hosting.PostgreSQL`
+  and `Aspire.Hosting.Redis` 13.6.4.
+
 ## 0.1.1 – 2026-08-25
 
 - Bump `Aspire.Hosting` dependency to 13.5.2 (from 13.4.6).
