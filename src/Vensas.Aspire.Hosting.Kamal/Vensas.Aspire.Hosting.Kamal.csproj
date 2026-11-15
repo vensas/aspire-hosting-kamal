@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Aspire.Hosting" Version="13.6.4" />
+    <PackageReference Include="Aspire.Hosting" Version="13.6.5" />
     <PackageReference Include="YamlDotNet" Version="18.1.0" />
   </ItemGroup>
 
